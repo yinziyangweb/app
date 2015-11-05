@@ -48,7 +48,10 @@
         {{$jp := index $l "jp"}}
         <tr>
           <td>
-            {{$value.Ver}}
+            <div class="col-xs-6">
+            <input class="form-control input-sm edit-ver" type="text" value="{{$value.Ver}}">
+            </div>
+            <button type="button" class="btn btn-default btn-xs edit-ver-btn" data-id="{{$value.Id}}">编辑版本</button>
           </td>
           <td>
             {{if eq $value.State "1"}}
@@ -226,6 +229,20 @@ $(document).ready(function(){
         var id = $(this).attr("data-id")
         var state = $(this).attr("data-state")
         $.post("/env/change_state", {id: id, state: state}, function(data){
+            if(data=="success"){
+                reloadPage()
+            }else{
+                alert(data)
+                return false
+            }
+        })
+    })
+
+    $(".edit-ver-btn").click(function(){
+        var pid = $(".edit-ver-btn").index(this)
+        var editVer = $.trim($(".edit-ver").eq(pid).prop("value"))
+        var id = $(this).attr("data-id")
+        $.post("/env/change_ver", {id: id, ver: editVer}, function(data){
             if(data=="success"){
                 reloadPage()
             }else{
