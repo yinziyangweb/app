@@ -27,6 +27,10 @@
       <input type="text" class="form-control" id="ver" name="ver" placeholder="输入版本号">
     </div>
     <button type="submit" class="btn btn-default save">添加版本</button>
+
+    <div class="form-group pull-right">
+    <a href="ad" class="btn btn-default">查看编辑ad信息</a>
+    </div>
   </form>
   </div>
 
@@ -36,22 +40,31 @@
     <table class="table table-striped table-bordered table-hover table-condensed">
       <thead>
         <th>版本</td>
+        <th>ad</td>
         <th>状态</th>
         <th>操作</th>
       </thead>
       <tbody>
         {{$langs := .langs}}
+        {{$ads := .ads}}
         {{range $pid, $value:=.data}}
         {{$l := index $langs $pid}}
         {{$cn := index $l "cn"}}
         {{$en := index $l "en"}}
         {{$jp := index $l "jp"}}
+        {{$ad := index $ads $pid}}
         <tr>
           <td>
             <div class="col-xs-6">
             <input class="form-control input-sm edit-ver" type="text" value="{{$value.Ver}}">
             </div>
             <button type="button" class="btn btn-default btn-xs edit-ver-btn" data-id="{{$value.Id}}">编辑版本</button>
+          </td>
+          <td>
+            <div class="col-xs-2">
+            <input class="form-control input-sm edit-ad" type="text" value="{{$ad}}">
+            </div>
+            <button type="button" class="btn btn-default btn-xs edit-ad-btn" data-ver="{{$value.Ver}}" data-app="{{$value.App}}">编辑ad</button>
           </td>
           <td>
             {{if eq $value.State "1"}}
@@ -251,6 +264,21 @@ $(document).ready(function(){
             }
         })
     })
+
+    $(".edit-ad-btn").click(function(){
+        var pid = $(".edit-ad-btn").index(this)
+        var editAd = $.trim($(".edit-ad").eq(pid).prop("value"))
+        var ver = $(this).attr("data-ver")
+        $.post("/env/change_ad", {ver: ver, ad: editAd}, function(data){
+            if(data=="success"){
+                reloadPage()
+            }else{
+                alert(data)
+                return false
+            }
+        })
+    })
+
 
 
 })
