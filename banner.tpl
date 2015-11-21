@@ -33,52 +33,45 @@
       <input type="text" class="form-control" id="link" name="link" placeholder="link">
     </div>
     <button type="submit" class="btn btn-default create">添加</button>
+    <a href="#" class="btn btn-primary batch-btn">保存所有</a>
   </form>
   </div>
 
-
   <div class="row" style="padding-top: 20px;">
-  <div class=".table-responsive">
-    <table class="table table-striped table-bordered table-hover table-condensed">
-      <thead>
-        <th>icon</th>
-        <th>title</th>
-        <th>link</th>
-        <th>排序号</th>
-        <th>状态</th>
-        <th>操作</th>
-      </thead>
-      <tbody>
-        {{range .data}} 
-        <tr>
-          <td>
-            <input type="text" value="{{.Icon}}" class="icon form-control" />
-          </td>
-          <td>
-            <input type="text" value="{{.Title}}" class="title form-control" />
-          </td>
-          <td>
-            <input type="text" value="{{.Link}}" class="link form-control" />
-          </td>
-          <td>
-            <input type="text" value="{{.OrderId}}" class="order-id form-control" />
-          </td>
-          <td>
-            {{$state := .State}}
-            <select type="text" class="state form-control">
-              <option value="1" {{if eq $state "1"}}selected="selected"{{end}}>失效</option>
-              <option value="2" {{if eq $state "2"}}selected="selected"{{end}}>生效</option>
-            </select>
-          </td>
-          <td>
-            <button type="button" value="{{.Id}}" class="btn btn-default save">保存修改</button>
-            <button type="button" value="{{.Id}}" class="btn btn-danger delete">删除</button>
-          </td>
-        </tr>
-        {{end}}
-      </tbody>
-    </table>
-  </div>
+    <div id="sortTrue" class="list-group">
+
+      {{range .data}} 
+      <div class="list-group-item">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <tr>
+            <td>
+              <input type="text" value="{{.Icon}}" class="icon form-control" />
+            </td>
+            <td>
+              <input type="text" value="{{.Title}}" class="title form-control" />
+            </td>
+            <td>
+              <input type="text" value="{{.Link}}" class="link form-control" />
+            </td>
+            <td>
+              <input type="text" value="{{.OrderId}}" class="order-id form-control" />
+            </td>
+            <td>
+              {{$state := .State}}
+              <select type="text" class="state form-control">
+                <option value="1" {{if eq $state "1"}}selected="selected"{{end}}>失效</option>
+                <option value="2" {{if eq $state "2"}}selected="selected"{{end}}>生效</option>
+              </select>
+            </td>
+            <td>
+              <button type="button" value="{{.Id}}" class="btn btn-default save">保存修改</button>
+              <button type="button" value="{{.Id}}" class="btn btn-danger delete">删除</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      {{end}}
+    </div>
   </div>
 </div>
 
@@ -86,8 +79,15 @@
 <script src="/js/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/Sortable.js"></script>
 <script>
 $(document).ready(function(){
+    Sortable.create(sortTrue, {
+        group: "sorting",
+        sort: true
+    });
+
+
     function reloadPage(){
         window.location.href = window.location.href
     }
@@ -110,6 +110,28 @@ $(document).ready(function(){
 			}
         })
     })
+
+    $(".batch-btn").click(function(){
+        $.ajaxSetup({ 
+            async : false 
+        }); 
+        var all_len = $(".icon").length
+        $(".icon").each(function(){
+            var pid = $(".icon").index(this)
+            var id = $(".save").eq(pid).prop("value")
+            var icon = $(".icon").eq(pid).prop("value")
+            var title = $(".title").eq(pid).prop("value")
+            var link = $(".link").eq(pid).prop("value")
+            var state = $(".state").eq(pid).prop("value")
+            var order_id = all_len-pid
+            var post_data = {id: id, icon:icon, title:title, link:link, order_id:order_id, state:state}
+            console.log(post_data)
+		    $.post("/banner/update", post_data, function(data){
+            })
+        })
+	    reloadPage()
+    })
+
 
     $(".create").click(function(){
         var icon = $("#icon").prop("value")
