@@ -30,53 +30,47 @@
       <input type="text" class="form-control" id="icon" name="icon" value="" placeholder="填入合集图片">
     </div>
     <button type="submit" class="btn btn-default add-btn">添加</button>
+    <a href="#" class="btn btn-primary batch-btn">保存所有</a>
   </form>
   </div>
 
 
   <div class="row" style="padding-top: 20px;">
-  <div class=".table-responsive">
-    <table class="table table-striped table-bordered table-hover table-condensed">
-      <thead>
-        <th>id</td>
-        <th>合集名称</th>
-        <th>合集图片</th>
-        <th>排序号</th>
-        <th>状态</th>
-        <th>操作</th>
-      </thead>
-      <tbody>
-        {{range .data}} 
-        <tr>
-          <td>
-            {{.Id}}
-          </td>
-          <td>
-			<input type="text" class="form-control input-sm name" value="{{.Name}}">
-          </td>
-          <td class="text-left">
-			<input type="text" class="form-control input-sm icon" value="{{.Icon}}">
-          </td>
-          <td>
-            <input type="text" value="{{.OrderId}}" class="order-id form-control" />
-          </td>
-          <td>
-            {{$state := .State}}
-            <select type="text" class="state form-control">
-              <option value="1" {{if eq $state "1"}}selected="selected"{{end}}>失效</option>
-              <option value="2" {{if eq $state "2"}}selected="selected"{{end}}>生效</option>
-            </select>
-          </td>
-          <td>
-		    <button type="button" value="{{.Id}}" class="btn btn-primary btn-sm save-btn">保存</button>
-            <a href="collection/music/edit?id={{.Id}}" class="btn btn-primary btn-sm">添加音乐</a>
-            <button type="button" value="{{.Id}}" class="btn btn-danger btn-sm delete-btn">删除合集</button>
-          </td>
-        </tr>
-        {{end}}
-      </tbody>
-    </table>
-  </div>
+    <div id="sortTrue" class="list-group">
+
+      {{range .data}} 
+      <div class="list-group-item">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <tr>
+            <td>
+              {{.Id}}
+            </td>
+            <td>
+		      <input type="text" class="form-control input-sm name" value="{{.Name}}">
+            </td>
+            <td class="text-left">
+		      <input type="text" class="form-control input-sm icon" value="{{.Icon}}">
+            </td>
+            <td>
+              <input type="text" value="{{.OrderId}}" class="order-id form-control" />
+            </td>
+            <td>
+              {{$state := .State}}
+              <select type="text" class="state form-control">
+                <option value="1" {{if eq $state "1"}}selected="selected"{{end}}>失效</option>
+                <option value="2" {{if eq $state "2"}}selected="selected"{{end}}>生效</option>
+              </select>
+            </td>
+            <td>
+		      <button type="button" value="{{.Id}}" class="btn btn-primary btn-sm save-btn">保存</button>
+              <a href="collection/music/edit?id={{.Id}}" class="btn btn-primary btn-sm">添加音乐</a>
+              <button type="button" value="{{.Id}}" class="btn btn-danger btn-sm delete-btn">删除合集</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      {{end}}
+    </div>
   </div>
 </div>
 
@@ -84,8 +78,15 @@
 <script src="/js/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/Sortable.js"></script>
 <script>
 $(document).ready(function(){
+
+    Sortable.create(sortTrue, {
+        group: "sorting",
+        sort: true
+    });
+
 	$(".add-btn").click(function(){
 		var name = $.trim($("#name").prop("value"))
 		var icon = $.trim($("#icon").prop("value"))
@@ -138,6 +139,27 @@ $(document).ready(function(){
 			}
 		})
 	})
+
+
+    $(".batch-btn").click(function(){
+        $.ajaxSetup({ 
+            async : false 
+        }); 
+        var all_len = $(".name").length
+        $(".name").each(function(){
+            var pid = $(".name").index(this)
+            var collection_id = $(".save-btn").eq(pid).prop("value")
+            var name = $(".name").eq(pid).prop("value")
+            var icon = $(".icon").eq(pid).prop("value")
+            var state = $(".state").eq(pid).prop("value")
+            var order_id = all_len-pid
+            var post_data = {id: collection_id, name: name, icon: icon, state: state, order_id: order_id}
+            console.log(post_data)
+		    $.post("/collection/edit", {id: collection_id, name: name, icon: icon, state: state, order_id: order_id}, function(data){
+            })
+        })
+	    reloadPage()
+    })
 
 
 
