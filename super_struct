@@ -1,0 +1,518 @@
+-- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
+--
+-- Host: gamehuochairen.ct7cj9f0ldac.us-east-1.rds.amazonaws.com    Database: super_fm
+-- ------------------------------------------------------
+-- Server version	5.6.23-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `app_ad`
+--
+
+DROP TABLE IF EXISTS `app_ad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_ad` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app` varchar(50) NOT NULL,
+  `ver` varchar(50) NOT NULL,
+  `ad` int(11) NOT NULL DEFAULT '3',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`app`,`ver`),
+  KEY `IDX_app_ad_app` (`app`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `app_message`
+--
+
+DROP TABLE IF EXISTS `app_message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app` varchar(50) NOT NULL,
+  `ver` varchar(50) NOT NULL,
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`app`,`ver`),
+  KEY `IDX_app_message_app` (`app`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `app_message_lang`
+--
+
+DROP TABLE IF EXISTS `app_message_lang`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_message_lang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ver_id` int(11) NOT NULL,
+  `lang` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `msg` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`ver_id`,`lang`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `app_version`
+--
+
+DROP TABLE IF EXISTS `app_version`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_version` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app` varchar(50) NOT NULL,
+  `ver` varchar(50) NOT NULL,
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`app`,`ver`),
+  KEY `IDX_app_version_app` (`app`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `app_version_lang`
+--
+
+DROP TABLE IF EXISTS `app_version_lang`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_version_lang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ver_id` int(11) NOT NULL,
+  `lang` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `msg` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`ver_id`,`lang`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `banner`
+--
+
+DROP TABLE IF EXISTS `banner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `banner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `icon` varchar(100) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `collection`
+--
+
+DROP TABLE IF EXISTS `collection`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `collection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `detail` varchar(100) NOT NULL,
+  `link` varchar(100) NOT NULL,
+  `icon` varchar(100) NOT NULL,
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `collection_music`
+--
+
+DROP TABLE IF EXISTS `collection_music`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `collection_music` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `collection_id` int(11) NOT NULL,
+  `music_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`collection_id`,`music_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `env`
+--
+
+DROP TABLE IF EXISTS `env`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `env` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `data` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `seiza_banner`
+--
+
+DROP TABLE IF EXISTS `seiza_banner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `seiza_banner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `icon` varchar(100) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `seiza_collection`
+--
+
+DROP TABLE IF EXISTS `seiza_collection`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `seiza_collection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `detail` varchar(100) NOT NULL,
+  `link` varchar(100) NOT NULL,
+  `icon` varchar(100) NOT NULL,
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `seiza_collection_music`
+--
+
+DROP TABLE IF EXISTS `seiza_collection_music`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `seiza_collection_music` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `collection_id` int(11) NOT NULL,
+  `music_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`collection_id`,`music_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `shinri_banner`
+--
+
+DROP TABLE IF EXISTS `shinri_banner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shinri_banner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `icon` varchar(100) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `shinri_collection`
+--
+
+DROP TABLE IF EXISTS `shinri_collection`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shinri_collection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `detail` varchar(100) NOT NULL,
+  `link` varchar(100) NOT NULL,
+  `icon` varchar(100) NOT NULL,
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `shinri_collection_music`
+--
+
+DROP TABLE IF EXISTS `shinri_collection_music`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shinri_collection_music` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `collection_id` int(11) NOT NULL,
+  `music_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`collection_id`,`music_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `singer_info`
+--
+
+DROP TABLE IF EXISTS `singer_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `singer_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `photo_addr` varchar(255) NOT NULL,
+  `group` varchar(50) NOT NULL,
+  `group_name` varchar(50) NOT NULL,
+  `country` varchar(80) NOT NULL,
+  `add_time` datetime NOT NULL,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `sex` varchar(10) NOT NULL,
+  `birthday` datetime DEFAULT NULL,
+  `constellation` varchar(50) NOT NULL,
+  `height` varchar(10) NOT NULL,
+  `weight` varchar(10) NOT NULL,
+  `query_addr` varchar(255) NOT NULL DEFAULT '',
+  `tag` varchar(20) NOT NULL DEFAULT '',
+  `photo_key` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`name`,`country`),
+  KEY `IDX_singer_info_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5528 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `singer_music`
+--
+
+DROP TABLE IF EXISTS `singer_music`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `singer_music` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `sogou_song_id` int(11) unsigned NOT NULL,
+  `music_name` varchar(255) NOT NULL DEFAULT '',
+  `sougou_singer_id` int(11) unsigned NOT NULL,
+  `album_name` varchar(100) DEFAULT '''''',
+  `album_date` varchar(20) DEFAULT '''''',
+  `play_time` int(5) DEFAULT '0',
+  `song_lyric` text,
+  `play_url` varchar(100) NOT NULL DEFAULT '',
+  `add_time` datetime NOT NULL,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `singer_id` int(11) NOT NULL,
+  `lyric_key` varchar(100) NOT NULL,
+  `album_img` varchar(100) NOT NULL,
+  `lyric_xml_key` varchar(100) NOT NULL,
+  `music_type` enum('cartoon','series','film','other','happy','usa_film','') NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`music_name`,`album_name`),
+  KEY `IDX_singer_music_singer_id` (`singer_id`),
+  KEY `IDX_singer_music_album_name` (`album_name`),
+  KEY `idx_music_type` (`music_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=95000 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `supplement_data`
+--
+
+DROP TABLE IF EXISTS `supplement_data`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `supplement_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `singer_name` varchar(100) NOT NULL DEFAULT '',
+  `state` enum('105','3','2') NOT NULL DEFAULT '105',
+  `tag` varchar(20) NOT NULL DEFAULT '',
+  `group` varchar(50) NOT NULL,
+  `group_name` varchar(50) NOT NULL,
+  `country` varchar(80) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UQE_supplement_data_singer_name` (`singer_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `top_music`
+--
+
+DROP TABLE IF EXISTS `top_music`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `top_music` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `top_type` enum('DAY','WEEK','MONTH') NOT NULL DEFAULT 'DAY',
+  `num` int(11) NOT NULL DEFAULT '0',
+  `music_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`top_type`,`music_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3726 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `top_singer`
+--
+
+DROP TABLE IF EXISTS `top_singer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `top_singer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `top_type` enum('DAY','WEEK','MONTH') NOT NULL DEFAULT 'DAY',
+  `num` int(11) NOT NULL DEFAULT '0',
+  `singer_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`top_type`,`singer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `total_keyword`
+--
+
+DROP TABLE IF EXISTS `total_keyword`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `total_keyword` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(255) NOT NULL DEFAULT '',
+  `total` int(11) NOT NULL,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_key` (`keyword`),
+  KEY `idx_total` (`total`),
+  KEY `idx_time` (`update_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=76781 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `total_music`
+--
+
+DROP TABLE IF EXISTS `total_music`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `total_music` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `music_id` int(11) NOT NULL DEFAULT '0',
+  `total` int(11) NOT NULL,
+  `add_date` date NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_uniq` (`music_id`,`add_date`),
+  KEY `idx_total` (`total`),
+  KEY `idx_date` (`add_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=27559 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `total_singer`
+--
+
+DROP TABLE IF EXISTS `total_singer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `total_singer` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `singer_id` int(11) NOT NULL DEFAULT '0',
+  `total` int(11) NOT NULL,
+  `add_date` date NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_uniq` (`singer_id`,`add_date`),
+  KEY `idx_total` (`total`),
+  KEY `idx_date` (`add_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=8468 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `yume_banner`
+--
+
+DROP TABLE IF EXISTS `yume_banner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `yume_banner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `icon` varchar(100) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `yume_collection`
+--
+
+DROP TABLE IF EXISTS `yume_collection`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `yume_collection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `detail` varchar(100) NOT NULL,
+  `link` varchar(100) NOT NULL,
+  `icon` varchar(100) NOT NULL,
+  `state` enum('1','2') NOT NULL DEFAULT '1',
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `yume_collection_music`
+--
+
+DROP TABLE IF EXISTS `yume_collection_music`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `yume_collection_music` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `collection_id` int(11) NOT NULL,
+  `music_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_UNIQ` (`collection_id`,`music_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2015-11-24  4:27:38
